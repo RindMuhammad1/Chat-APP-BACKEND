@@ -22,14 +22,14 @@ mongoose.connect('mongodb://localhost:27017/chat-app', {
 }).then(() => console.log('MongoDB connected successfully.'))
   .catch(err => console.error('Failed to connect to MongoDB:', err));
 
-// Define Room Schema and Model
+// Room Schema and Model
 const roomSchema = new mongoose.Schema({
     name: { type: String, required: true, unique: true },
     description: String,
     createdAt: { type: Date, default: Date.now }
 });
 
-// Define User Schema and Model
+//  User Schema and Model
 const userSchema = new mongoose.Schema({
     username: { type: String, required: true },
     socketId: { type: String, required: true },
@@ -37,7 +37,7 @@ const userSchema = new mongoose.Schema({
     createdAt: { type: Date, default: Date.now }
 });
 
-// Define Message Schema and Model
+//  Message Schema and Model
 const messageSchema = new mongoose.Schema({
     room: { type: mongoose.Schema.Types.ObjectId, ref: 'Room', required: true },
     sender: String,
@@ -49,11 +49,11 @@ const Room = mongoose.model('Room', roomSchema);
 const User = mongoose.model('User', userSchema);
 const Message = mongoose.model('Message', messageSchema);
 
-// Listen for socket connections
+// socket connections
 io.on('connection', (socket) => {
     console.log('A user connected:', socket.id);
 
-    // Create Room Handler
+    // create  Room Handler
     socket.on('createRoom', async ({ name, description }) => {
         if (!name) {
             socket.emit('error', 'Room name is required.');
